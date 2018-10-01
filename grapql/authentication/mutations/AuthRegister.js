@@ -1,8 +1,11 @@
-import { GraphQLNonNull, GraphQLString } from 'graphql'
-import Messages from '../../../messages/Messages'
-import AppModels from '../../../models/index'
-import User from '../../users/types/User'
-import AuthUtils from '../utils/AuthUtils'
+import {
+  GraphQLNonNull,
+  GraphQLString,
+} from 'graphql';
+import Messages from '../../../messages/Messages';
+import AppModels from '../../../models/index';
+import User from '../../users/types/User';
+import AuthUtils from '../utils/AuthUtils';
 
 // user auth register
 const AuthRegister = {
@@ -28,7 +31,7 @@ const AuthRegister = {
     },
     job: {
       type: GraphQLString,
-    }
+    },
   },
   resolve: (root, params) => {
     return new Promise((resolve, reject) => {
@@ -38,30 +41,32 @@ const AuthRegister = {
         // we can find by username or email
         // because they are unique
         // insert only if user not exist
-        let email = params.email || ''
-        AppModels.UserModel.findOne({ email: email }, (error, user) => {
+        let email = params.email || '';
+        AppModels.UserModel.findOne({
+          email: email,
+        }, (error, user) => {
           // insert only if user not exist
           if (error) {
-            reject(error.message)
+            reject(error.message);
           } else {
             if (!user) {
-              const userModel = new AppModels.UserModel(params)
-              let newUser = userModel.save(userModel)
+              const userModel = new AppModels.UserModel(params);
+              let newUser = userModel.save(userModel);
               if (newUser) {
-                resolve(newUser)
+                resolve(newUser);
               } else {
-                reject(Messages.KEYS.USER_ADD_ERROR)
+                reject(Messages.KEYS.USER_ADD_ERROR);
               }
             } else {
-              reject(Messages.KEYS.USER_ALREADY_EXIST)
+              reject(Messages.KEYS.USER_ALREADY_EXIST);
             }
           }
-        })
+        });
       } else {
-        reject(Messages.KEYS.VERIFY_REQUIRED_INFORMATION)
+        reject(Messages.KEYS.VERIFY_REQUIRED_INFORMATION);
       }
-    })
-  }
-}
+    });
+  },
+};
 
-export default AuthRegister
+export default AuthRegister;

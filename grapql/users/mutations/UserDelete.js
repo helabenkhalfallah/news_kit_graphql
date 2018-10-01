@@ -1,47 +1,49 @@
-import { GraphQLNonNull, GraphQLString } from 'graphql'
-import AppModels from '../../../models/index'
-import User from '../types/User'
-import Messages from '../../../messages/Messages'
+import {
+  GraphQLNonNull,
+  GraphQLString,
+} from 'graphql';
+import AppModels from '../../../models/index';
+import User from '../types/User';
+import Messages from '../../../messages/Messages';
 
-//delete
+// delete
 const UserDelete = {
   type: User,
   args: {
     email: {
       type: new GraphQLNonNull(GraphQLString),
-    }
+    },
   },
   resolve: (_, params, context) => {
     return new Promise((resolve, reject) => {
-
-      // user authorization 
+      // user authorization
       if (!context.user) {
-        reject(Messages.KEYS.WRONG_SESSION)
+        reject(Messages.KEYS.WRONG_SESSION);
       }
 
       // delete only if user exist
-      const email = params.email
+      const email = params.email;
       AppModels.UserModel.findOne({ email: email }, (error, user) => {
         // delete only if user exist
         if (!error) {
           if (user) {
             // delete user
-            let userDeleted = user.remove()
+            let userDeleted = user.remove();
             if (userDeleted) {
-              resolve(userDeleted)
+              resolve(userDeleted);
             } else {
-              reject(Messages.KEYS.USER_DELETE_ERROR)
+              reject(Messages.KEYS.USER_DELETE_ERROR);
             }
           } else {
-            reject(Messages.KEYS.USER_NOT_EXIST)
+            reject(Messages.KEYS.USER_NOT_EXIST);
           }
         } else {
-          reject(error.message)
+          reject(error.message);
         }
-      })
-    })
-  }
-}
+      });
+    });
+  },
+};
 
-//export user delete mutation
-export default UserDelete 
+// export user delete mutation
+export default UserDelete;

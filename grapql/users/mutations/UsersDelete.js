@@ -1,30 +1,29 @@
-import AppModels from '../../../models/index'
-import User from '../types/User'
-import Messages from '../../../messages/Messages'
+import AppModels from '../../../models/index';
+import User from '../types/User';
+import Messages from '../../../messages/Messages';
 
-//delete all users
+// delete all users
 const UsersDelete = {
   type: User,
   args: {},
   resolve: (_, params, context) => {
     return new Promise((resolve, reject) => {
-
-      // user authorization  
+      // user authorization
       if (!context.user) {
-        reject(Messages.KEYS.WRONG_SESSION)
+        reject(Messages.KEYS.WRONG_SESSION);
       }
 
       // delete all users
       AppModels.UserModel.remove({}, (error) => {
         if (!error) {
-          resolve(Messages.KEYS.USER_LIST_DELETE_SUCCESS)
+          resolve(Messages.KEYS.USER_LIST_DELETE_SUCCESS);
         } else {
-          reject(error.message)
+          reject(error.message);
         }
-      })
-    })
-  }
-}
+      });
+    });
+  },
+};
 
-//export users delete mutation
-export default UsersDelete 
+// export users delete mutation
+export default UsersDelete;

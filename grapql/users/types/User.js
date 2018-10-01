@@ -1,10 +1,15 @@
-import { GraphQLObjectType, GraphQLNonNull, GraphQLID, GraphQLString } from 'graphql'
+import {
+  GraphQLObjectType,
+  GraphQLNonNull,
+  GraphQLID,
+  GraphQLString,
+} from 'graphql';
 
 // User Type
 const User = new GraphQLObjectType({
   name: 'User',
   description: 'User type definition',
-  fields: function () {
+  fields: () => {
     return {
       id: {
         type: new GraphQLNonNull(GraphQLID),
@@ -33,9 +38,9 @@ const User = new GraphQLObjectType({
       job: {
         type: GraphQLString,
       },
-    }
-  }
-})
+    };
+  },
+});
 
-//export user gql type
-export default User
+// export user gql type
+export default User;

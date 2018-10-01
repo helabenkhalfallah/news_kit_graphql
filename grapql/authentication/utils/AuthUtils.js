@@ -1,50 +1,50 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 // verify if token is valid
 const isValidToken = (token) => {
   try {
-    jwt.verify(token, process.env.JWT_SECRET_OR_KEY)
-    return true
+    jwt.verify(token, process.env.JWT_SECRET_OR_KEY);
+    return true;
   } catch (error) {
     // error
-    console.log('AuthUtils isValidToken : ', error)
-    return false
+    return false;
   }
-}
+};
 
 // retrieve token from header
 const retrieveToken = (headers) => {
   if (headers && headers.authorization) {
-    let tokens = headers.authorization.split(' ')
+    let tokens = headers.authorization.split(' ');
     if (tokens && tokens.length === 2) {
-      return tokens[1]
+      return tokens[1];
     } else {
-      return null
+      return null;
     }
   } else {
-    return null
+    return null;
   }
-}
+};
 
 // check for required params
 const isValidUser = (params) => {
   if (params) {
-    let email = params.email || ''
-    let username = params.username || ''
-    let password = params.password || ''
-    let firstName = params.firstName || ''
-    let lastName = params.lastName || ''
-    if (email && username && password && firstName && lastName)
-      return true
+    let email = params.email || '';
+    let username = params.username || '';
+    let password = params.password || '';
+    let firstName = params.firstName || '';
+    let lastName = params.lastName || '';
+    if (email && username && password && firstName && lastName) {
+      return true;
+    }
   }
-  return false
-}
+  return false;
+};
 
 // auth utility helper
 const AuthUtils = {
   isValidToken,
   retrieveToken,
   isValidUser,
-}
+};
 
-export default AuthUtils
+export default AuthUtils;

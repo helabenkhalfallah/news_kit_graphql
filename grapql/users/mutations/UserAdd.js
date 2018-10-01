@@ -1,10 +1,13 @@
-import { GraphQLNonNull, GraphQLString } from 'graphql'
-import AppModels from '../../../models/index'
-import User from '../types/User'
-import AuthUtils from '../../authentication/utils/AuthUtils'
-import Messages from '../../../messages/Messages'
+import {
+  GraphQLNonNull,
+  GraphQLString,
+} from 'graphql';
+import AppModels from '../../../models/index';
+import User from '../types/User';
+import AuthUtils from '../../authentication/utils/AuthUtils';
+import Messages from '../../../messages/Messages';
 
-//add
+// add
 const UserAdd = {
   type: User,
   args: {
@@ -28,14 +31,13 @@ const UserAdd = {
     },
     job: {
       type: GraphQLString,
-    }
+    },
   },
   resolve: (_, params, context) => {
     return new Promise((resolve, reject) => {
-
-      // user authorization  
+      // user authorization
       if (!context.user) {
-        reject(Messages.KEYS.WRONG_SESSION)
+        reject(Messages.KEYS.WRONG_SESSION);
       }
 
       // add user
@@ -46,26 +48,26 @@ const UserAdd = {
           // insert only if user not exist
           if (!error) {
             if (!user) {
-              const userModel = new AppModels.UserModel(params)
-              let newUser = userModel.save(userModel)
+              const userModel = new AppModels.UserModel(params);
+              let newUser = userModel.save(userModel);
               if (newUser) {
-                resolve(newUser)
+                resolve(newUser);
               } else {
-                reject(Messages.KEYS.USER_ADD_ERROR)
+                reject(Messages.KEYS.USER_ADD_ERROR);
               }
             } else {
-              reject(Messages.KEYS.USER_ALREADY_EXIST)
+              reject(Messages.KEYS.USER_ALREADY_EXIST);
             }
           } else {
-            reject(error.message)
+            reject(error.message);
           }
-        })
+        });
       } else {
-        reject(Messages.KEYS.VERIFY_REQUIRED_INFORMATION)
+        reject(Messages.KEYS.VERIFY_REQUIRED_INFORMATION);
       }
-    })
-  }
-}
+    });
+  },
+};
 
-//export user add mutation
-export default UserAdd 
+// export user add mutation
+export default UserAdd;
