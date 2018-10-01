@@ -40,7 +40,7 @@ const userListQuery = `query{
 }`;
 
 // user test suite
-describe('News Kit GraphQL Test Suite', () => {
+describe('Users GraphQL Test Suite', () => {
   beforeEach(function (done) {
     setTimeout(function () {
       // login user 
