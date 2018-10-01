@@ -96,7 +96,7 @@ describe('News Kit GraphQL Test Suite', () => {
           console.log('* beforeEach token : ', token);
           done();
         });
-    }, 8888);
+    }, 4000);
   });
 
   // user list get
