@@ -15,8 +15,8 @@ import {
 export default graphqlHTTP((req, res) => {
   return new Promise((resolve) => {
     const next = (user, info = {}) => {
-      AppLogger.debug('graphqlHTTP user - ', user);
-      AppLogger.debug('graphqlHTTP info - ', info);
+      AppLogger.debug('gqlMiddleware user - ', user);
+      AppLogger.debug('gqlMiddleware info - ', info);
       /**
        * GraphQL configuration
        * graphiql: process.env.NODE_ENV !== 'production'
@@ -47,6 +47,8 @@ export default graphqlHTTP((req, res) => {
     }, (error, user) => {
       // get request payload
       const body = req.body ? req.body.query : '';
+      AppLogger.debug('gqlMiddleware passport body - ', body);
+      AppLogger.debug('gqlMiddleware passport error - ', error);
 
       // if not body means main url
       if (isEmpty(body)) {
@@ -58,17 +60,21 @@ export default graphqlHTTP((req, res) => {
       if (body &&
         (body.includes('AuthLogin')
           || body.includes('AuthRegister'))) {
+        AppLogger.debug('gqlMiddleware AuthLogin, AuthRegister or Home');
         next();
         return;
       }
 
       // need auth for others endpoint
       const token = AuthUtils.retrieveToken(req.headers);
+      AppLogger.debug('gqlMiddleware passport token - ', token);
       if (AuthUtils.isValidToken(token)) {
         // valid token
+        AppLogger.debug('gqlMiddleware valid token');
         next(user);
       } else {
         // invalid token
+        AppLogger.debug('gqlMiddleware invalid token');
         res.status(401).send({
           success: false,
           message: MesssageProvider.messageByKey(Messages.KEYS.WRONG_SESSION),

@@ -51,3 +51,5 @@ const portNumber = process.env.GRAPHQL_APP_PORT || 4000;
 app.listen(portNumber, () => {
   AppLogger.debug('server started - ', portNumber);
 });
+
+export default app;
