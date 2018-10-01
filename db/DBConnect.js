@@ -7,11 +7,15 @@ mongoose.Promise = global.Promise
 
 //connect
 const DBConnect = async () => {
-  let dbHost = process.env.MONGOOSE_DB_HOST
-  let dbPort = process.env.MONGOOSE_DB_PORT
-  let dbName = process.env.MONGOOSE_DB_NAME
+  const dbHost = process.env.MONGOOSE_DB_HOST
+  const dbPort = process.env.MONGOOSE_DB_PORT
+  const dbName = process.env.MONGOOSE_DB_NAME
+  const settings = {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+  }
   try {
-    await mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`)
+    await mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, settings)
     AppLogger.debug('Connected to mongo!!!')
   }
   catch (err) {
@@ -20,3 +24,4 @@ const DBConnect = async () => {
 }
 
 export default DBConnect
+
